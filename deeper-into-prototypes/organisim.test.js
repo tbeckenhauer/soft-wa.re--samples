@@ -162,6 +162,58 @@ describe('utils.getRandomWholeNumber', [
       tallyOutput(convientGoodInput);
     }
     return isZeroNotReturnedEverytime();
-  })
+  }),
 
+  itShould('not return zero everytime(functional version)', function () {
+    var goodInputs = [1,2,3,4,5,6,7,8,9,10];
+    var numberOfTimesZeroIsReturned = function (previous, current) {
+
+      if(isInitialCondition(previous)) {
+        return {
+          timesZero: isZero(previous) + isZero(current),
+          timesNotZero: isNotZero(previous) + isZero(current)
+        }
+      } else if(isPreviousObjectBootstraped(previous)){
+        return {
+          timesZero: previous.timesZero + isZero(current),
+          timesNotZero: previous.timesNotZero + isNotZero(current)
+        }
+      } else {
+        //something unexpected happened
+      }
+
+      function isZero(input) {
+        return 0 === input
+      }
+      function isNotZero(input) {
+        return ! isZero(input)
+      }
+
+      function isInitialCondition(prevArg) {
+        return typeof prevArg === 'number';
+      }
+      function isPreviousObjectBootstraped(prevArg) {
+        return typeof prevArg === 'object'
+      }
+    }
+    var wasZeroReturnedMore = function () {
+      var numberOf = goodInputs
+        .map(utils.getRandomWholeNumber)
+        .reduce(numberOfTimesZeroIsReturned);
+        
+      return numberOf.timesNotZero < numberOf.timesZero;
+    }
+    //itShould 'not' return zero everytime
+    return ! wasZeroReturnedMore();
+  })
+]),
+
+
+describe('utils.replaceCharacterAt', [
+  itShould('exist', function () {
+    return !!(utils.replaceCharacterAt);
+  }),
+  itShould('return a string', function () {
+    return 'string' === typeof utils.replaceCharacterAt();
+  })
 ])

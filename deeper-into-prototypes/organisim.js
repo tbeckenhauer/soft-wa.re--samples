@@ -26,5 +26,8 @@ var utils = {
     } else {
       return parseInt(Math.random() * maxValue);
     }
+  },
+  replaceCharacterAt: function () {
+    return '';
   }
 }
